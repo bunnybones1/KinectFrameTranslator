@@ -1,0 +1,21 @@
+<languageVersion : 1.0;>
+
+kernel DeinterlaceKinectFrameToMonochrome
+<   namespace : "com.bunnybones";
+    vendor : "Bunnybones";
+    version : 1;
+>
+{
+    input image4 src;
+    output pixel4 dst;
+
+    void
+    evaluatePixel()
+    {
+        pixel4 sample = sampleNearest(src,outCoord());
+        
+        float dstColor = ((14.0 - sample.r * 256.0) - sample.g) / 14.0;
+        if(sample.r == 0.0 && sample.g == 0.0) dstColor = 0.0;
+        dst = pixel4(dstColor, dstColor, dstColor, 1.0);
+    }
+}
